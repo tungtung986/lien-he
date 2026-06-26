@@ -330,13 +330,98 @@ padding:15px 25px;
 
 }
 
+/* =======================================================
+   PHẦN CSS THÊM MỚI CHO LOADING VÀ KIỂM TRA VPN
+   ======================================================= */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #050505;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 20px;
+}
+
+#loading-text {
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
+    font-weight: 500;
+}
+
+.progress-container {
+    width: 80%;
+    max-width: 400px;
+    background: #222;
+    border-radius: 20px;
+    padding: 4px;
+    border: 1px solid #00c8ff;
+    box-shadow: 0 0 15px rgba(0, 200, 255, 0.3);
+}
+
+.progress-bar {
+    width: 1%;
+    height: 20px;
+    background: linear-gradient(90deg, #00c8ff, cyan);
+    border-radius: 20px;
+    box-shadow: 0 0 10px cyan;
+    transition: width 0.1s linear;
+}
+
+#percentage {
+    margin-top: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    color: cyan;
+    text-shadow: 0 0 10px cyan;
+}
+
+/* Thống báo đẩy VPN ẩn mặc định */
+#vpn-alert {
+    display: none;
+    background: rgba(255, 0, 0, 0.2);
+    border: 2px solid red;
+    padding: 15px;
+    border-radius: 12px;
+    color: #ff4d4d;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 25px;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+    animation: flash 1.5s infinite alternate;
+}
+
+@keyframes flash {
+    from { box-shadow: 0 0 5px red; }
+    to { box-shadow: 0 0 20px red; }
+}
 </style>
 
 </head>
 
 <body>
 
+<div id="loading-overlay">
+    <div id="loading-text">Chúng tôi đang kiểm tra bảo mật và hãy tắt VPN</div>
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div id="percentage">1%</div>
+</div>
+
 <div class="container">
+
+<div id="vpn-alert">
+    <i class="fas fa-exclamation-triangle"></i> Cậu yêu ơi hãy tắt VPN đi nhé
+</div>
 
 <div class="logo">
 <i class="fas fa-cube"></i>
@@ -401,6 +486,44 @@ target="_blank">
 </div>
 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let count = 1;
+    const progressBar = document.getElementById("progress-bar");
+    const percentageText = document.getElementById("percentage");
+    const loadingOverlay = document.getElementById("loading-overlay");
+    const vpnAlert = document.getElementById("vpn-alert");
+
+    // 1. Kiểm tra VPN dựa trên lệch múi giờ (Việt Nam là GMT+7 tức -420 phút)
+    // Hầu hết khi bật VPN sang quốc gia khác, múi giờ trình duyệt sẽ thay đổi
+    const offset = new Date().getTimezoneOffset();
+    let isVPN = false;
+    
+    if (offset !== -420) { 
+        isVPN = true;
+    }
+
+    // 2. Chạy thanh loading từ 1% -> 100%
+    const loadingInterval = setInterval(() => {
+        count++;
+        progressBar.style.width = count + "%";
+        percentageText.innerText = count + "%";
+
+        if (count >= 100) {
+            clearInterval(loadingInterval);
+            
+            // Ẩn màn hình loading đi
+            loadingOverlay.style.display = "none";
+            
+            // Nếu phát hiện có sử dụng VPN thì cho hiển thị dòng chữ cảnh báo
+            if (isVPN) {
+                vpnAlert.style.display = "block";
+            }
+        }
+    }, 30); // Tốc độ loading, bạn có thể chỉnh số này cao lên nếu muốn chạy chậm lại
+});
+</script>
 
 </body>
 </html>
