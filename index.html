@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Liên Hệ Cày Thuê</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    background:linear-gradient(-45deg,#050505,#0d0d0d,#00151f,#001d2b);
+    background-size:400% 400%;
+    animation:bg 12s ease infinite;
+
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+
+    min-height:100vh;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    padding:40px 0;
+
+}
+
+/* Thanh cuộn */
+
+body::-webkit-scrollbar{
+    width:10px;
+}
+
+body::-webkit-scrollbar-track{
+    background:#111;
+}
+
+body::-webkit-scrollbar-thumb{
+    background:cyan;
+    border-radius:20px;
+}
+
+body::-webkit-scrollbar-thumb:hover{
+    background:#00bfff;
+}
+
+@keyframes bg{
+
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+
+}
+
+.container{
+
+    width:90%;
+    max-width:760px;
+
+    margin:40px 0;
+
+    background:rgba(20,20,20,.85);
+
+    backdrop-filter:blur(8px);
+
+    border:2px solid #00c8ff;
+
+    border-radius:25px;
+
+    padding:45px;
+
+    text-align:center;
+
+    box-shadow:
+    0 0 15px #00c8ff,
+    0 0 35px #00c8ff55,
+    0 0 80px #00c8ff33;
+
+    animation:borderGlow 3s infinite alternate;
+
+}
+
+@keyframes borderGlow{
+
+from{
+
+box-shadow:
+0 0 15px #00c8ff,
+0 0 35px #00c8ff55;
+
+}
+
+to{
+
+box-shadow:
+0 0 25px cyan,
+0 0 60px cyan,
+0 0 100px cyan;
+
+}
+
+}
+
+.logo{
+
+font-size:70px;
+color:#00c8ff;
+
+margin-bottom:15px;
+
+animation:spin 12s linear infinite;
+
+text-shadow:0 0 25px cyan;
+
+}
+
+@keyframes spin{
+
+from{
+transform:rotate(0deg);
+}
+
+to{
+transform:rotate(360deg);
+}
+
+}
+
+h1{
+
+font-size:42px;
+margin-bottom:10px;
+color:white;
+
+text-shadow:0 0 15px cyan;
+
+}
+
+.subtitle{
+
+font-size:23px;
+color:#cfcfcf;
+margin-bottom:25px;
+
+}
+
+.text{
+
+font-size:18px;
+line-height:1.9;
+color:#ededed;
+
+}
+
+.social{
+
+margin-top:40px;
+
+display:flex;
+justify-content:center;
+gap:25px;
+flex-wrap:wrap;
+
+}
+
+.social a{
+
+width:75px;
+height:75px;
+
+border-radius:50%;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+font-size:34px;
+
+text-decoration:none;
+
+transition:.35s;
+
+}
+
+.facebook{
+
+background:#1877F2;
+color:white;
+
+}
+
+.facebook:hover{
+
+transform:translateY(-8px) scale(1.1);
+
+box-shadow:
+0 0 20px #1877F2,
+0 0 45px #1877F2;
+
+}
+
+/* STYLE CHO DISCORD */
+.discord{
+
+background:#5865F2;
+color:white;
+
+}
+
+.discord:hover{
+
+transform:translateY(-8px) scale(1.1);
+
+box-shadow:
+0 0 20px #5865F2,
+0 0 45px #5865F2;
+
+}
+
+.youtube{
+
+margin-top:40px;
+
+}
+
+.youtube a{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:12px;
+
+padding:18px 35px;
+
+background:red;
+
+color:white;
+
+text-decoration:none;
+
+border-radius:12px;
+
+font-size:22px;
+
+font-weight:bold;
+
+transition:.35s;
+
+}
+
+.youtube a:hover{
+
+transform:scale(1.08);
+
+box-shadow:
+0 0 20px red,
+0 0 40px red,
+0 0 70px red;
+
+}
+
+.footer{
+
+margin-top:40px;
+
+font-size:18px;
+
+color:#8edcff;
+
+text-shadow:0 0 15px cyan;
+
+}
+
+@media(max-width:600px){
+
+.container{
+
+padding:30px 20px;
+
+}
+
+.logo{
+
+font-size:55px;
+
+}
+
+h1{
+
+font-size:32px;
+
+}
+
+.subtitle{
+
+font-size:18px;
+
+}
+
+.text{
+
+font-size:16px;
+
+}
+
+.youtube a{
+
+font-size:18px;
+
+padding:15px 25px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+<i class="fas fa-cube"></i>
+</div>
+
+<h1>Liên Hệ Cày Thuê</h1>
+
+<div class="subtitle">
+Vui lòng đọc
+</div>
+
+<div class="text">
+
+Chúng tôi sẽ không bán bất kỳ sản phẩm huy hiệu nào trong game <b>Roblox</b>.
+
+<br><br>
+
+Liên hệ cày thuê <b>Blox Fruits</b> và một số game nổi tiếng khác.
+
+<br><br>
+
+<b>Hỗ trợ 24/7 (Trừ buổi tối)</b>
+
+</div>
+
+<div class="social">
+
+<a class="facebook"
+href="https://web.facebook.com/profile.php?id=61587576273465&locale=vi_VN"
+target="_blank">
+
+<i class="fab fa-facebook-f"></i>
+
+</a>
+
+<a class="discord"
+href="https://discord.gg/UYQBYXNU8M"
+target="_blank">
+
+<i class="fab fa-discord"></i>
+
+</a>
+
+</div>
+
+<div class="youtube">
+
+<a href="https://www.youtube.com/@garoblox2" target="_blank">
+
+<i class="fab fa-youtube"></i>
+
+Đăng ký
+
+</a>
+
+</div>
+
+<div class="footer">
+
+🐔 Gà Roblox
+
+</div>
+
+</div>
+
+</body>
+</html>
