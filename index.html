@@ -403,11 +403,58 @@ padding:15px 25px;
     from { box-shadow: 0 0 5px red; }
     to { box-shadow: 0 0 20px red; }
 }
+
+/* =======================================================
+   CSS CHO HIỆU ỨNG HOA LÁ RƠI (BẢN UPDATE NÂNG CẤP ĐẸP NHƯ VIDEO)
+   ======================================================= */
+.leaf-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; 
+    z-index: 9999; 
+    overflow: hidden;
+    perspective: 1000px; /* Tạo không gian 3D giúp lá xoay chân thực */
+}
+
+.leaf {
+    position: absolute;
+    top: -50px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    user-select: none;
+    pointer-events: none;
+    will-change: transform, opacity;
+    animation: fallAndSway linear infinite;
+    filter: drop-shadow(0 0 4px rgba(0, 200, 255, 0.3)); /* Thêm chút hiệu ứng ánh sáng nhẹ hợp tone màu web */
+}
+
+/* Hiệu ứng chuyển động phức hợp: vừa rơi xuống, vừa lắc lư trái phải, vừa xoay lật 3D */
+@keyframes fallAndSway {
+    0% {
+        transform: translateY(0) translateX(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+    }
+    90% {
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(105vh) translateX(180px) rotateX(360deg) rotateY(720deg) rotateZ(360deg);
+        opacity: 0;
+    }
+}
 </style>
 
 </head>
 
 <body>
+
+<div class="leaf-container" id="leaf-container"></div>
 
 <div id="loading-overlay">
     <div id="loading-text">Chúng tôi đang kiểm tra bảo mật</div>
@@ -496,7 +543,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const vpnAlert = document.getElementById("vpn-alert");
 
     // 1. Kiểm tra VPN dựa trên lệch múi giờ (Việt Nam là GMT+7 tức -420 phút)
-    // Hầu hết khi bật VPN sang quốc gia khác, múi giờ trình duyệt sẽ thay đổi
     const offset = new Date().getTimezoneOffset();
     let isVPN = false;
     
@@ -521,7 +567,50 @@ document.addEventListener("DOMContentLoaded", function () {
                 vpnAlert.style.display = "block";
             }
         }
-    }, 30); // Tốc độ loading, bạn có thể chỉnh số này cao lên nếu muốn chạy chậm lại
+    }, 30); 
+
+    // 3. TỰ ĐỘNG TẠO HIỆU ỨNG HOA LÁ RƠI ĐỒNG HÌNH ẢNH 3D (BẢN CẢI TIẾN)
+    const leafContainer = document.getElementById("leaf-container");
+    
+    // Sử dụng các hình ảnh đồ họa SVG cực kỳ sắc nét (gồm cánh hoa anh đào hồng ngọt ngào và lá xanh neon rực rỡ hợp màu web)
+    const leafImages = [
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffb7c5'><path d='M12 2C12 2 6 8 6 13C6 16.3 8.7 19 12 19C15.3 19 18 16.3 18 13C18 8 12 2 12 2Z'/></svg>", // Cánh hoa anh đào 1
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff6b8b'><path d='M12 3c-1.2 0-2.4.6-3.2 1.7C8 3.6 6.8 3 5.6 3 3.1 3 1 5.1 1 7.6c0 4.6 5.3 8.2 11 13.4 5.7-5.2 11-8.8 11-13.4C23 5.1 20.9 3 18.4 3c-1.2 0-2.4.6-3.2 1.7C14.4 3.6 13.2 3 12 3z'/></svg>", // Cánh hoa hình tim lãng mạn
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300ffff'><path d='M17 3H21v4c0 5.52-4.48 10-10 10H7v-4c0-5.52 4.48-10 10-10z'/></svg>", // Lá cây màu xanh Cyan đồng bộ giao diện
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23a2f3ff'><path d='M12 2s-8 4.5-8 10c0 4.4 3.6 8 8 8s8-3.6 8-8c0-5.5-8-10-8-10z'/></svg>" // Cánh hoa mỏng màu xanh ngọc dạ quang
+    ]; 
+
+    function createLeaf() {
+        const leaf = document.createElement("div");
+        leaf.className = "leaf";
+        
+        // Lấy ngẫu nhiên hình ảnh đồ họa từ danh sách
+        const randomImage = leafImages[Math.floor(Math.random() * leafImages.length)];
+        leaf.style.backgroundImage = `url("${randomImage}")`;
+        
+        // Cấu hình ngẫu nhiên vị trí xuất phát, kích thước ảnh (từ 15px đến 30px)
+        leaf.style.left = Math.random() * 100 + "vw";
+        const size = Math.random() * 15 + 15; 
+        leaf.style.width = size + "px";
+        leaf.style.height = size + "px";
+        
+        // Tốc độ rơi ngẫu nhiên biến thiên tạo chiều sâu (ảnh gần rơi nhanh, ảnh xa rơi chậm)
+        const duration = Math.random() * 5 + 4; // Rơi từ 4 giây đến 9 giây
+        leaf.style.animationDuration = duration + "s";
+        
+        // Trì hoãn thời gian rơi ngẫu nhiên để các cánh hoa không xuất phát cùng một lúc
+        leaf.style.animationDelay = Math.random() * 2 + "s";
+        
+        leafContainer.appendChild(leaf);
+        
+        // Tự động giải phóng bộ nhớ sau khi ảnh rơi khuất màn hình
+        setTimeout(() => {
+            leaf.remove();
+        }, (duration + 2) * 1000);
+    }
+
+    // Tăng mật độ sinh cánh hoa để nhìn dày dặn và nghệ thuật giống video (mỗi 200ms tạo 1 cánh mới)
+    setInterval(createLeaf, 200);
 });
 </script>
 
